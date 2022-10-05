@@ -20,7 +20,7 @@ Complete the following steps:
 
   * Use `otu_labels` as the hovertext for the chart.
 
-  ![bar Chart](Images/hw01.png)
+  ![bar Chart](images/hw01.png)
 
 3. Create a bubble chart that displays each sample.
 
@@ -34,17 +34,17 @@ Complete the following steps:
 
   * Use `otu_labels` for the text values.
 
-![Bubble Chart](Images/bubble_chart.png)
+![Bubble Chart](images/bubble_chart.png)
 
 4. Display the sample metadata, i.e., an individual's demographic information.
 
 5. Display each key-value pair from the metadata JSON object somewhere on the page.
 
-![hw](Images/hw03.png)
+![hw](images/hw03.png)
 
 6. Update all the plots when a new sample is selected. Additionally, you are welcome to create any layout that you would like for your dashboard. An example dashboard is shown below:
 
-![hw](Images/hw02.png)
+![hw](images/hw02.png)
 
 7. Deploy your app to a free static page hosting service, such as GitHub Pages. Submit the links to your deployment and your GitHub repo. Ensure that your repository has regular commits and a thorough README.md file
 
@@ -58,7 +58,7 @@ The following task is advanced and therefore optional.
 
 * Update the chart whenever a new sample is selected.
 
-![Weekly Washing Frequency Gauge](Images/gauge.png)
+![Weekly Washing Frequency Gauge](images/gauge.png)
 
 
 ## Hints
