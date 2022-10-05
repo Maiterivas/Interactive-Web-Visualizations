@@ -1,14 +1,14 @@
-//locate where the data is
+//locate where the samples data is and save to variable
 const url = "data/samples.json"
 
-//testing getting data
+//testing getting data using d3 request
 d3.json(url).then((data) => {
 metadata = data;
 console.log(metadata);
 
 });
 
-
+//Changes Option in HTML
 function optionChanged(sample_value) {
     buildBarChart(sample_value);
     buildBubbleChart(sample_value);
@@ -33,25 +33,24 @@ function init() {
       // update current value of sample
       sample_update.property("value", all_samples[i].id);
     }
-      
+    
+    //initialize charts with first ID sample value
+    buildBarChart(all_samples[0].id);
+    buildBubbleChart(all_samples[0].id);
+    metadata_info(all_samples[0].id);
         
   });
   
-      //initialize charts with first ID sample value
-      buildBarChart(all_samples[0].id);
-      buildBubbleChart(all_samples[0].id);
-      metadata_info(all_samples[0].id);
+      
+      
 };
-  
-  
-//initialize init function by calling it
-init();
 
+//Build Metadata Info
 function metadata_info(sample_value) {
   d3.json(url).then((data) => {
     //save metadata
     var metadata = data.metadata;
-    //save selections for each subject
+    //make a filter so it saves selection for each sample id
     var sample_select = metadata.filter(value => value.id == sample_value);
     var sample_result = sample_select[0]
     var sample_metadata = d3.select("#sample-metadata");
@@ -62,3 +61,59 @@ function metadata_info(sample_value) {
   });
 });
 }
+
+//Bubble Chart
+function buildBubbleChart(sample_value) {
+  d3.json(url).then((data) => {
+    //filter data so it generates with the selected sample, and initialize with 0
+    var sample_info = data.samples.filter(value => value.id == sample_value)[0]
+    var trace1 = [{
+      x: sample_info.otu_ids,
+      y: sample_info.sample_values,
+      text: sample_info.otu_labels,
+      mode: 'markers',
+      marker: {
+        size: sample_info.sample_values,
+        color: sample_info.otu_ids
+      }
+    }];
+    
+    var layout = {
+      xaxis: {title: 'OTU ID'}
+    };
+    
+    Plotly.newPlot('bubble', trace1, layout);
+  });
+};
+
+//Bar Chart
+function buildBarChart(sample_value) {
+  d3.json(url).then((data) => {
+    //filter data so it generates with the selected sample, and initialize with 0
+    var sample_info = data.samples.filter(value => value.id == sample_value)[0]
+    var sample_values = sample_info.sample_values
+    var sample_labels = sample_info.otu_ids
+
+    //The data is too big for the bar chart, values must be sliced
+    sliced_values = sample_values.slice(0, 10);
+    sliced_labels = sample_labels.slice(0, 10);
+    //Sort the labels using map and add "OTU" to identify OTU
+    sliced_labels = sliced_labels.map(L => "OTU " + L)
+    //Reverse the order to match ReadMe figure
+    sliced_values.reverse();
+
+    var trace1 = {
+      x: sliced_values,
+      y: sliced_labels,
+      type: "bar",
+      orientation: "h",
+    };
+
+    let trace2 = [trace1];
+
+    Plotly.newPlot("bar", trace2)
+  });
+};
+
+//initialize init function by calling it
+init();
